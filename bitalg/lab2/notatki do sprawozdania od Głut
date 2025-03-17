@@ -1,0 +1,16 @@
+powinny być gdzieś zawarte animacje (albo w kodzie, albo zip z nazwiskiem)
+Powinne być opisane szczegóły implementacyjne grahama:
+- jak sortowaliśmy (funkcja biblioteczna)
+- wyznacznik, czy funkcja trygonometryczna
+- sortowanie po odległości i w jaki sposób to wykorzystuje
+- w czasie sortowania usuwam punkty współliniowe i czy je usuwam?
+- jak jest końcowo dostępna otoczka? czy mam i gdzie listę punktów i czy mam podane ilość punktów otoczki
+- to samo z Jarvisem
+- W jaki sposób zostało to zrobione
+- w jaki sposób obliczamy kolejny punkt otoczki
+- czy funkcja trygonometryczna, czy wyznacznik?
+- czy punkty współliniowe
+- mają być porównania czasowe dla różnych liczności z uwzględnieniem liczby punktów otoczki, czy nie mam za dużo punktów (współliniowych w c i d), czy przy dużym zagęszczeniu punktów na okręgu nie zostało coś wywalone
+- każdy symbol ma być objaśniony, rysunki ponumerowane i odpowiedznie odwołania do rysunków
+- do każdej tabeli odwołania tabel
+- "Po co babci słuchać"

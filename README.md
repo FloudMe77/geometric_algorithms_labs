@@ -1,1 +1,0 @@
-# geometric_algorithms_labs

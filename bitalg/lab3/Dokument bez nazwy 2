@@ -1,0 +1,109 @@
+def find_intersections_with_visualization(sections):
+    """
+    Funkcja znajduje wszystkie przecięcia zadanych odcinków i dodatkowo zwraca kolejne kroki w wizualizacji 
+    :param sections: tablica odcinków w postaci krotek ktorek współrzędnych punktów końcowych odcinków
+    :return: tablica punktów przecięć w postaci trzyelementowych krotek w których pierwszym elementem są współrzędne danego punktu, a drugim i trzecim indeksy prostych z listy wejściowej, które się przecinają w tym punkcie współrzędnych np.:
+    [((x1, y1), id1,id2),
+    ((x2, y2), id3, id4),
+    ...]
+    """
+    section1=None
+    section2=None
+    def add_two_lines_on_vis(line1,line2,_color):
+        nonlocal section1,section2
+        section1=vis.add_line_segment(get_beg_and_end_from_section(line1),color=_color)
+        section2=vis.add_line_segment(get_beg_and_end_from_section(line2),color=_color)
+
+    def delate_two_lines_on_vis():
+        nonlocal section1,section2
+        vis.remove_figure(section1)
+        vis.remove_figure(section2)
+
+    def color_line(section,color_):
+        vis.add_point(get_list_position_from_point(section.begin),color=color_,s=25)
+        vis.add_line_segment(get_beg_and_end_from_section(section),color=color_)
+        vis.add_point(get_list_position_from_point(section.end),color=color_,s=25)
+
+    def check_intersection_and_add_new_point_to_Q_and_draw(line1,line2):
+        if (line1,line2) not in already_checked:
+            already_checked.add((line1,line2))
+            add_two_lines_on_vis(line1,line2,"yellow")
+            new_point = intersect_point(line1,line2)
+            if new_point is not None and new_point[0]>=actual_point.x: 
+                vis.add_point(new_point,color="red",s=45)
+                point_to_add = Point(new_point[0],new_point[1],'przeciecie',(line1,line2))
+                Section.update_x(Section.x+eps)
+                Q.add(point_to_add)
+                Section.update_x(Section.x-eps)
+                tab_przeciec.append(((new_point[0],new_point[1]),line1.index_in_section+1,line2.index_in_section+1))
+            delate_two_lines_on_vis()
+
+    already_checked=set()
+    tab_przeciec=[]
+    Q = SortedSet()
+    vis = Visualizer()
+    vis.clear()
+    tab_of_point_to_draw=[]
+
+    for index_in_section, (begin_point, end_point) in list(enumerate(sections)):
+        section_of_this_points = Section( Point(begin_point[0],begin_point[1],'begin') , Point(end_point[0],end_point[1],'end'), index_in_section)
+        Q.add(Point(begin_point[0],begin_point[1],'begin',section_of_this_points))
+        Q.add(Point(end_point[0],end_point[1],'end',section_of_this_points))
+        tab_of_point_to_draw.append(begin_point)
+        tab_of_point_to_draw.append(end_point)
+    T = SortedSet()
+    vis.add_point(tab_of_point_to_draw)
+    vis.add_line_segment(sections)
+
+    n=len(sections)
+    min_y=min([sections[i//2][i%2][0] for i in range(2*n)])
+    max_y=max([sections[i//2][i%2][0] for i in range(2*n)])
+    
+    while len(Q)>0:
+        actual_point = Q.pop(0)
+        Section.update_x(actual_point.x-eps)
+        actual_line = actual_point.attach_to
+        broom=vis.add_line(((actual_point.x,min_y),(actual_point.x,max_y)),color="red")
+
+        if actual_point.label == "begin":
+            color_line(actual_line,"lime")
+
+            T.add(actual_line)
+            index = T.index(actual_line)
+            if index>0:
+                check_intersection_and_add_new_point_to_Q_and_draw(actual_line,T[index-1])
+
+            if index < len(T)-1:
+                check_intersection_and_add_new_point_to_Q_and_draw(actual_line,T[index+1])
+
+        elif actual_point.label == "end":
+            index = T.index(actual_line)
+            if 0<index<len(T)-1:
+                check_intersection_and_add_new_point_to_Q_and_draw(T[index-1],T[index+1])
+            T.discard(actual_line)
+            color_line(actual_line,"black")
+        else:
+            actual_line1, actual_line2 = actual_point.attach_to
+            add_two_lines_on_vis(actual_line1,actual_line2,"black")
+            T.discard(actual_line1)
+            T.discard(actual_line2)
+            Section.update_x(Section.x+2*eps)
+            T.add(actual_line1)
+            T.add(actual_line2)
+            delate_two_lines_on_vis()
+            if actual_line1>actual_line2:
+                index1 = T.index(actual_line1)
+                index2 = T.index(actual_line2)
+            else:
+                index2 = T.index(actual_line1)
+                index1 = T.index(actual_line2)
+            if index1 < len(T)-1:
+                check_intersection_and_add_new_point_to_Q_and_draw(T[index1],T[index1+1])
+            
+            if index2>0:
+                check_intersection_and_add_new_point_to_Q_and_draw(T[index2],T[index2-1])
+        vis.remove_figure(broom)
+        if actual_point.label != 'przeciecie':
+            vis.add_point((actual_point.x,actual_point.y),color='black')
+    
+    return tab_przeciec,vis
