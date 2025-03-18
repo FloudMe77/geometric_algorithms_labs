@@ -1,8 +1,0 @@
-# dwa sposoby rozstrzygania, czy jest y- monotoniczny
-# można albo przelecieć cały wielkokąt i patrzeć, czy idziemy tylko w dół/góre
-# klasyfikować punkty (końcowy, początkowy, łączący itp.) jeżeli występują złe punkt jest źle
-# w triangulacji sorujemy liniowo
-# należy zrobić wyznacznikiem ( zgodnie z ruchem wskazówke zegara)
-# uwaga na przekątną torzsamą z bokiem
-# w triangulacji podajemy pary odnoszące się do numerów tych punktów
-# można też w postaci trójek, też numery punktów, obieg przeciwnie do ruchu wskazówek zegara

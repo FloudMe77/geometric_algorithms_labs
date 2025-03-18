@@ -6,6 +6,9 @@ This repository contains implementations of algorithms covered in the Geometric 
 Laboratory materials, such as template notebooks, a visualizer, and tests, are provided by the [_BIT Scientific Group_](https://github.com/aghbit/Algorytmy-Geometryczne). 
 
 
+![sample](exercises/lab4/gify/zbior_B.gif)
+
+
 ## Table of Contents
 
 | Laboratory      | Description                                      | Score | Source |
@@ -44,5 +47,7 @@ pip install -r requirements.txt
    jupyter notebook
    ```
 2. Navigate to the labs directory and open the notebook you want to work with, such as exercises/lab1/main.ipynb, in your preferred environment (e.g., VS Code or a web browser).
+
+![sample](exercises/lab3/gify/trian_E.gif)
 
 ---
